@@ -1,14 +1,15 @@
+
 server:
-  port:8080
+  port: 9000
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/product_details
+    url: jdbc:mysql://localhost:3306/order123
     username: amar
     password: password
   application:
-    name: product-service2023
+    name: order-service2023
 
 
   jpa:
