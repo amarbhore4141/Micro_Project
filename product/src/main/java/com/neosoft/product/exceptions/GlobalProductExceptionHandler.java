@@ -1,4 +1,4 @@
-package com.neosoft.product.GlobalProductException;
+package com.neosoft.product.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +11,17 @@ public class GlobalProductExceptionHandler {
     public ResponseEntity<ErrorResponse> hndelingNoProductFoundException(ProductNotFoundException productNotFoundException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(productNotFoundException.getMessage());
-        errorResponse.setErrorCode(HttpStatus.NOT_FOUND.value());
+        errorResponse.setErrorCode(String.valueOf(HttpStatus.NOT_FOUND));
 //        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.valueOf(errorResponse.getErrorCode()));
-        return ResponseEntity.status(errorResponse.getErrorCode()).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.valueOf(errorResponse.getErrorCode())).body(errorResponse);
 
+    }
+
+    @ExceptionHandler(ProductServiceCustomException.class)
+    public ResponseEntity<ErrorResponse> handleProductServiceException(ProductServiceCustomException exception) {
+        return new ResponseEntity<>(new ErrorResponse().builder()
+                .message(exception.getMessage())
+                .errorCode(exception.getErrorCode())
+                .build(), HttpStatus.NOT_FOUND);
     }
 }

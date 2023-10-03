@@ -1,13 +1,15 @@
-package com.neosoft.product.GlobalProductException;
+package com.neosoft.product.exceptions;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ErrorResponse {
     private String message;
-    private int errorCode;
+    private String errorCode;
 }

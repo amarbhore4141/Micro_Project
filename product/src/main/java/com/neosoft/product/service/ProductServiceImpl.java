@@ -1,7 +1,8 @@
 package com.neosoft.product.service;
 
-import com.neosoft.product.GlobalProductException.ProductNotFoundException;
+import com.neosoft.product.exceptions.ProductNotFoundException;
 import com.neosoft.product.entity.Product;
+import com.neosoft.product.exceptions.ProductServiceCustomException;
 import com.neosoft.product.model.ProductRequest;
 import com.neosoft.product.model.ProductResponse;
 import com.neosoft.product.repo.ProductRepo;
@@ -69,6 +70,30 @@ public class ProductServiceImpl implements ProductService {
                     .build();
             productRepo.save(product);
         }
+    }
+
+
+    @Override
+    public void reduceQuantity(long productId, long quantity) {
+        log.info("Reduce Quantity {} for Id: {}", quantity,productId);
+
+        Product product
+                = productRepo.findById(productId)
+                .orElseThrow(() -> new ProductServiceCustomException(
+                        "Product with given Id not found",
+                        "PRODUCT_NOT_FOUND"
+                ));
+
+        if(product.getQuantity() < quantity) {
+            throw new ProductServiceCustomException(
+                    "Product does not have sufficient Quantity",
+                    "INSUFFICIENT_QUANTITY"
+            );
+        }
+
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepo.save(product);
+        log.info("Product Quantity updated Successfully");
     }
 
 

@@ -1,6 +1,5 @@
-package com.neosoft.product.GlobalProductException;
+package com.neosoft.product.exceptions;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
